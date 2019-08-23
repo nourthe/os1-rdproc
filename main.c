@@ -12,12 +12,12 @@ int main(int argc, char* argv[]){
 	const struct option long_opt [] = {
 		{"help", no_argument, NULL, 1},
 		{"version", no_argument, NULL, 'v'},
-		{"error", no_argument, NULL, 'e'},
+		{"usage", no_argument, NULL, 's'},
 		{0, 0, 0, 0},
 	};
 	int c = 0; // getopt_long internal counter
 	int opt_ind = 0; // option Index
-	while ((c = getopt_long(argc, argv, "kce", long_opt, &opt_ind))!=-1){
+	while ((c = getopt_long(argc, argv, "vskc", long_opt, &opt_ind))!=-1){
 		switch(c){
 			case 1:
 				print_usage();

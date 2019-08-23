@@ -1,4 +1,4 @@
-GIT_VERSION := "$(shell git --version)"
+GIT_VERSION := "$(shell git describe --tags --abbrev=0)"
 
 CC=gcc
 CFLAGS=-Wall -pedantic -DVERSION=\"$(GIT_VERSION)\"
