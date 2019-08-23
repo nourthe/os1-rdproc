@@ -1,7 +1,7 @@
-#IFNDIF _RDPROC_H_
-#DEFINE _RDPROC_H_
+#ifndef _RDPROC_H_
+#define _RDPROC_H_
 
-char* rdproc( int );
+void rdproc( int );
 void print_file_line( char* , int);
 
-#ENDIF
+#endif

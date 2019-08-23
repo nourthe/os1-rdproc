@@ -1,8 +1,10 @@
-CC=gcc
-CFLAGS=-Wall -Pedantic
+GIT_VERSION := "$(shell git --version)"
 
-test: rdproc
-	./rdproc -ck
+CC=gcc
+CFLAGS=-Wall -pedantic -DVERSION=\"$(GIT_VERSION)\"
+
+#test: rdproc
+	#./rdproc -ck
 
 rdproc: main.o rdproc.o
 	$(CC) $(CFLAGS) -o rdproc main.o rdproc.o

@@ -4,7 +4,7 @@
 #include<stdio.h>
 #include<string.h>
 
-char* rdproc(int c){
+void rdproc(int c){
 	switch(c){
 		case -1:
 			printf( "Hostname: \n\t");
