@@ -21,6 +21,7 @@ int main(int argc, char* argv[]){
 	};
 	int c = 0; // getopt_long internal counter
 	int opt_ind = 0; // option Index
+	int error = 0;
 	bool show_help = false;
 	bool show_version = false;
 	bool classic_read = false;
@@ -36,23 +37,33 @@ int main(int argc, char* argv[]){
 				classic_read = true;
 				break;
 			default:
-				printf("entre en default\n");
+				/* Params error */
+				show_help = true;
+				error = 1;
+				break;
 		}
 	}
-	if(show_version){
+	if(show_version && error==0 ){
 		print_version();
+		return 0;
 	}
 	if(show_help){
 		print_usage();
+		return error;
+	}
+
+	if(classic_read){
+		rdproc('c');
 		return 0;
 	}
 
-	if(classic_read){ rdproc('c'); }
-	return 0;
+	rdproc('d'); // Print default output
+
+	return error;
 }
 
 void print_usage(){
-	printf("Currently not abailable.\n");
+	printf("Usage: Currently not abailable.\n");
 }
 
 void print_version(){
