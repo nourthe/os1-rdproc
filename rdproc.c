@@ -6,24 +6,24 @@
 
 void rdproc(int c){
 	switch(c){
-		case -1:
+
+		/* Classic rdproc exercise information */
+		case 'c':
 			printf( "Hostname: \n\t");
 			print_file_line("/proc/sys/kernel/hostname", 0);
 			printf( "Date and time: \n\t");
 			print_file_line("/proc/driver/rtc", 0);
 			printf("\t");
 			print_file_line("/proc/driver/rtc", 1);
-			break;
-		case 'k':
+			printf( "CPU info: \n\t");
+			print_file_line("/proc/cpuinfo", 4);
 			printf( "Kernel version: \n\t");
 			print_file_line("/proc/version", 0);
 			break;
-		case 'c':
-			printf( "CPU info: \n\t");
-			print_file_line("/proc/cpuinfo", 4);
-			break;
+
+		/* print_file debug */
 		case 'e':
-			print_file_line("/proc/tuvieja", 0);
+			print_file_line("/proc/strangefilename", 0);
 	}
 }
 

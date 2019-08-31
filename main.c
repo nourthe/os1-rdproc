@@ -1,9 +1,13 @@
 #include<stdio.h>
+#include<stdbool.h>
 #include<getopt.h>
 
 #include"rdproc.h"
 
-const volatile static char version[] = VERSION;
+#ifndef VERSION
+#define VERSION "unknown"
+#endif
+
 
 void print_usage();
 void print_version();
@@ -17,18 +21,33 @@ int main(int argc, char* argv[]){
 	};
 	int c = 0; // getopt_long internal counter
 	int opt_ind = 0; // option Index
+	bool show_help = false;
+	bool show_version = false;
+	bool classic_read = false;
 	while ((c = getopt_long(argc, argv, "vskc", long_opt, &opt_ind))!=-1){
 		switch(c){
 			case 1:
-				print_usage();
+				show_help = true;
 				break;
 			case 'v':
-				print_version();
+				show_version = true;
+				break;
+			case 'c':
+				classic_read = true;
+				break;
 			default:
-				rdproc(c);
+				printf("entre en default\n");
 		}
-
 	}
+	if(show_version){
+		print_version();
+	}
+	if(show_help){
+		print_usage();
+		return 0;
+	}
+
+	if(classic_read){ rdproc('c'); }
 	return 0;
 }
 
