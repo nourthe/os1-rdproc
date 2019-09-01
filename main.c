@@ -16,7 +16,7 @@ int main(int argc, char* argv[]){
 	const struct option long_opt [] = {
 		{"help", no_argument, NULL, 1},
 		{"version", no_argument, NULL, 'v'},
-		{"usage", no_argument, NULL, 's'},
+		{"classic", no_argument, NULL, 'c'},
 		{0, 0, 0, 0},
 	};
 	int c = 0; // getopt_long internal counter
@@ -25,7 +25,7 @@ int main(int argc, char* argv[]){
 	bool show_help = false;
 	bool show_version = false;
 	bool classic_read = false;
-	while ((c = getopt_long(argc, argv, "vskc", long_opt, &opt_ind))!=-1){
+	while ((c = getopt_long(argc, argv, "vsc", long_opt, &opt_ind))!=-1){
 		switch(c){
 			case 1:
 				show_help = true;
