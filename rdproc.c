@@ -6,9 +6,8 @@
 #include"rdfile.h"
 
 
-void rdproc(int c){
+void rdproc(int c) {
 	switch(c){
-
 		/* Classic rdproc exercise information */
 		case 'd':
 			printf( "Hostname: \n\t");
@@ -23,11 +22,15 @@ void rdproc(int c){
 			printf("%s", rdfileline("/proc/version", 1));
 			printf( "Uptime: \n\t");
 			printUptime(rdfileline("/proc/uptime", 1));
+			// TODO: ask if the list should be obtained by: ls /lib/modules/$(uname -r)/kernel/fs/*/*ko
+			printf( "Supported filesystems: \n\t"); 
+			printf("%d",get_lines_number("/proc/filesystems"));
 			break;
 
 		/* print_file debug */
 		case 'e':
 			printf("%s", rdfileline("/proc/strangefilename", 0));
+			break;
 	}
 }
 

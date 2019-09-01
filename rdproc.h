@@ -4,5 +4,4 @@
 void rdproc( int );
 
 void printUptime(char* proc_slash_uptime);
-
 #endif

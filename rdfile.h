@@ -17,4 +17,10 @@ char* rdfileline( char* file, int line );
  */
 char* rdfilelines( char* file, int from, int to);
 
+/**
+ * @param filename: file to count lines from
+ * @return: the number of files or -1 if file not found
+*/
+int get_lines_number(const char* const filename);
+
 #endif
