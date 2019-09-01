@@ -3,3 +3,5 @@
 
 # Executable
 rdproc
+# VS Code files
+.vscode/settings.json

@@ -43,6 +43,8 @@ int main(int argc, char* argv[]){
 				break;
 		}
 	}
+	rdproc('d'); // Print default output
+	
 	if(show_version && error==0 ){
 		print_version();
 		return 0;
@@ -57,7 +59,6 @@ int main(int argc, char* argv[]){
 		return 0;
 	}
 
-	rdproc('d'); // Print default output
 
 	return error;
 }
