@@ -4,12 +4,13 @@
 
 #include"rdfile.h"
 
+const int BUFFER_SIZE = 1500;
 char* rdfileline( char* file, int line ){
 	return rdfilelines(file, line, line);
 }
 
 char* rdfilelines( char* file, int from, int to){
-	char buffer[200];
+	char buffer[BUFFER_SIZE];
 	char* total;
 	FILE *fp;
 	fp = fopen ( file, "r");
@@ -20,14 +21,14 @@ char* rdfilelines( char* file, int from, int to){
 
 	// Move the pointer
 	for(int i=0; i<from; i++){
-		fgets(buffer, 200, fp);
+		fgets(buffer, BUFFER_SIZE, fp);
 	}
 
 	// Read
-	total = malloc(200*(to-from+1));
+	total = malloc(BUFFER_SIZE*(to-from+1));
 	for(int i=from; i<=to; i++){
 		strcat( total, buffer);
-		fgets(buffer, 200, fp);
+		fgets(buffer, BUFFER_SIZE, fp);
 	}
 
 	// Close
