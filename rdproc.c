@@ -50,6 +50,7 @@ void printUptime(char *const proc_slash_uptime) {
 
 void print_step_b() {
 	char* cpu_usage_times = rdfileline("/proc/stat",1);
+	const char* const file_ptr_1 = cpu_usage_times;
 	char* token = strtok(cpu_usage_times," ");
 	char cpu_user_time [15];
 	char cpu_sys_time [15];
@@ -70,10 +71,11 @@ void print_step_b() {
 	 		cpu_user_time, USER_HZ,
 	 		cpu_sys_time, USER_HZ,
 	 		cpu_idle_time, USER_HZ);
-
+	
 	// -------- get context switches
 
 	char* file = rdfilelines("/proc/stat",1,get_lines_number("/proc/stat"));
+	const char* const file_ptr_2 = file;
 	char* ctxt_ocurrence = strstr(file,"ctxt");
 	char* ctxt_number = strtok(ctxt_ocurrence," ");
 	ctxt_number = strtok(NULL, " \n");
@@ -81,11 +83,33 @@ void print_step_b() {
 	printf("%s \n", ctxt_number);
 
 	char* file2 = rdfilelines("/proc/stat",1,get_lines_number("/proc/stat"));
+	const char* const file_ptr_3 = file2;
 	char* processes_ocurrence = strstr(file2,"processes");
 
 	char* processes_number = strtok(processes_ocurrence," ");
 	processes_number = strtok(NULL, " \n");
 	printf("Created processes since boot: \n\t");
 	printf("%s \n", processes_number);
+
 }
 
+
+void print_step_c() {
+	// Disk requests
+	int file_line_numbers = get_lines_number("/proc/diskstats");
+	long total_reads = 0;
+	for (int line_number = 1; line_number<=file_line_numbers; line_number++) {
+		char* file1 = rdfileline("/proc/diskstats",line_number);
+		const char* const file_ptr_1 = file1;
+		char* ptr = strtok(file1, " ");
+		int count = 0;
+		while (ptr != NULL) {
+			ptr = strtok(NULL," ");
+			count++;
+			if (count == 3) {
+				total_reads+=atol(ptr);
+			}
+		}
+	}
+	printf("Peticiones a disco: \n\t%li\n", total_reads);
+}

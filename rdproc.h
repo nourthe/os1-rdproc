@@ -6,4 +6,5 @@ void rdproc( int );
 void printUptime(char* proc_slash_uptime);
 
 void print_step_b();
+void print_step_c();
 #endif

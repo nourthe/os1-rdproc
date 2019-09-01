@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
 	bool show_version = false;
 	bool classic_read = false;
 	rdproc('d'); // Print default output
-	while ((c = getopt_long(argc, argv, "vsc", long_opt, &opt_ind))!=-1){
+	while ((c = getopt_long(argc, argv, "vscl", long_opt, &opt_ind))!=-1){
 		switch(c){
 			case 1:
 				show_help = true;
@@ -39,6 +39,9 @@ int main(int argc, char* argv[]){
 				break;
 			case 's':
 				print_step_b();
+				break;
+			case 'l':
+				print_step_c();
 				break;
 			default:
 				/* Params error */
