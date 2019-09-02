@@ -84,16 +84,16 @@ void print_step_b() {
 	
 	// -------- get context switches
 
-	char file [1500];
-	swholefile("/proc/stat",file,1500);
+	char file [10000];
+	swholefile("/proc/stat",file,10000);
 	char* ctxt_ocurrence = strstr(file,"ctxt");
 	char* ctxt_number = strtok(ctxt_ocurrence," ");
 	ctxt_number = strtok(NULL, " \n");
 	printf("Context switches since boot: \n\t");
 	printf("%s \n", ctxt_number);
 
-	char file2 [1500];
-	swholefile("/proc/stat",file2,1500);
+	char file2 [10000];
+	swholefile("/proc/stat",file2,10000);
 	char* processes_ocurrence = strstr(file2,"processes");
 
 	char* processes_number = strtok(processes_ocurrence," ");
