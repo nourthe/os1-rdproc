@@ -4,37 +4,27 @@
 
 #include"rdfile.h"
 
-const int BUFFER_SIZE = 1500;
-char* rdfileline( char* file, int line ){
-	return rdfilelines(file, line, line);
-}
-
-char* rdfilelines( char* file, int from, int to){
-	char buffer[BUFFER_SIZE];
-	char* total;
+void swholefile( char* file, char* buffer, long buf_size) {
 	FILE *fp;
 	fp = fopen ( file, "r");
-	if (from == 0 || to == 0) {
-		fputs ("Error: you can't read a line 0", stderr); exit(1);
-	}
+	if (fp == NULL) {fputs ("File error. Running UNIX?",stderr); exit (1);}
+	fread(buffer,sizeof(char),buf_size,fp);
+	// Close
+	fclose(fp);
+}
+
+void sfileline( char* file, int line_number, char* buffer, long buf_size){
+	FILE *fp;
+	fp = fopen ( file, "r");
 	if (fp == NULL) {fputs ("File error. Running UNIX?",stderr); exit (1);}
 
 	// Move the pointer
-	for(int i=0; i<from; i++){
-		fgets(buffer, BUFFER_SIZE, fp);
-	}
-
-	// Read
-	total = malloc(BUFFER_SIZE*(to-from+1));
-	for(int i=from; i<=to; i++){
-		strcat( total, buffer);
-		fgets(buffer, BUFFER_SIZE, fp);
+	for(int i=0; i<line_number; i++){
+		fgets(buffer, buf_size, fp);
 	}
 
 	// Close
 	fclose(fp);
-
-	return total;
 }
 
 int get_lines_number(const char* const filename) {

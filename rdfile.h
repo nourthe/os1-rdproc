@@ -3,19 +3,20 @@
 
 /**
  * Read a specific file line.
- * @param file : Location of the file
- * @param line : line number to read. The first line is 1, not 0
- * @return The specified file line
+ * @param file : the absolute path of the file to read.
+ * @param line_number : the line starting from 1 to read
+ * @param buffer : the bufer to store the file
+ * @param buf_size : the size of the buffer
  */
-char* rdfileline( char* file, int line );
+void sfileline( char* file, int line_number, char* buffer, long buf_size);
 
 /**
- * Read the file from line *from* to *to*
- * @param line : line number to read. The first line is 1, not 0
- * @param from : First line to read.
- * @param to : last line to read.
+ * Reads the entire file
+ * @param file : the absolute path of the file to read.
+ * @param buffer : the bufer to store the file
+ * @param buf_size : the size of the buffer
  */
-char* rdfilelines( char* file, int from, int to);
+void swholefile( char* file, char* buffer, long buf_size);
 
 /**
  * @param filename: file to count lines from

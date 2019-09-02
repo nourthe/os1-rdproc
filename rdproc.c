@@ -8,35 +8,45 @@
 
 
 void rdproc(int c) {
+	char buffer [500];
 	switch(c){
 		/* Classic rdproc exercise information */
 		case 'd':
 			printf( "Hostname: \n\t");
-			printf("%s", rdfileline("/proc/sys/kernel/hostname", 1));
+			sfileline("/proc/sys/kernel/hostname", 1,buffer,500);
+			printf("%s", buffer);
+
+			sfileline("/proc/driver/rtc", 1, buffer, 500);
 			printf( "Date and time: \n\t");
-			printf("%s", rdfileline("/proc/driver/rtc", 1));
+			printf("%s", buffer);
 			printf("\t");
-			printf("%s", rdfileline("/proc/driver/rtc", 2));
+
+			sfileline("/proc/driver/rtc", 2, buffer, 500);
+			printf("%s", buffer);
+
+
 			printf( "CPU info: \n\t");
-			printf("%s", rdfileline("/proc/cpuinfo", 5));
+
+			sfileline("/proc/cpuinfo", 5, buffer, 500);
+			printf("%s", buffer);
 			printf( "Kernel version: \n\t");
-			printf("%s", rdfileline("/proc/version", 1));
+
+			sfileline("/proc/version", 1, buffer, 500);
+			printf("%s", buffer);
 			printf( "Uptime: \n\t");
-			printUptime(rdfileline("/proc/uptime", 1));
+
+			sfileline("/proc/uptime", 1, buffer, 500);
+			printUptime(buffer);
 			// TODO: ask if the list should be obtained by: ls /lib/modules/$(uname -r)/kernel/fs/*/*ko
 			printf( "Supported filesystems: \n\t"); 
 			printf("%d",get_lines_number("/proc/filesystems")); printf("\n");
 			break;
-
-		/* print_file debug */
-		case 'e':
-			printf("%s", rdfileline("/proc/strangefilename", 0));
-			break;
 	}
 }
 
-void printUptime(char *const proc_slash_uptime) {
-	char * charSecondsSinceBoot = strtok(proc_slash_uptime, " ");
+void printUptime(const char *const proc_slash_uptime) {
+	char * copy = proc_slash_uptime;
+	char * charSecondsSinceBoot = strtok(copy, " ");
 	long sencodsSinceBoot = atol(charSecondsSinceBoot);
 
 	long uptimeHours = sencodsSinceBoot / 3600;
@@ -45,12 +55,12 @@ void printUptime(char *const proc_slash_uptime) {
 	uptimeSeconds %= 60;
 
 	long daysSinceBoot = uptimeHours / 24; 
-	printf("%ld dias %ld:%ld:%ld \n",daysSinceBoot,uptimeHours,uptimeMinutes,uptimeSeconds);	
+	printf("%ld dias %ld:%ld:%ld \n",daysSinceBoot,uptimeHours,uptimeMinutes,uptimeSeconds);
 }
 
 void print_step_b() {
-	char* cpu_usage_times = rdfileline("/proc/stat",1);
-	const char* const file_ptr_1 = cpu_usage_times;
+	char cpu_usage_times[500];
+	sfileline("/proc/stat",1, cpu_usage_times, 500);
 	char* token = strtok(cpu_usage_times," ");
 	char cpu_user_time [15];
 	char cpu_sys_time [15];
@@ -74,23 +84,22 @@ void print_step_b() {
 	
 	// -------- get context switches
 
-	char* file = rdfilelines("/proc/stat",1,get_lines_number("/proc/stat"));
-	const char* const file_ptr_2 = file;
+	char file [1500];
+	swholefile("/proc/stat",file,1500);
 	char* ctxt_ocurrence = strstr(file,"ctxt");
 	char* ctxt_number = strtok(ctxt_ocurrence," ");
 	ctxt_number = strtok(NULL, " \n");
 	printf("Context switches since boot: \n\t");
 	printf("%s \n", ctxt_number);
 
-	char* file2 = rdfilelines("/proc/stat",1,get_lines_number("/proc/stat"));
-	const char* const file_ptr_3 = file2;
+	char file2 [1500];
+	swholefile("/proc/stat",file2,1500);
 	char* processes_ocurrence = strstr(file2,"processes");
 
 	char* processes_number = strtok(processes_ocurrence," ");
 	processes_number = strtok(NULL, " \n");
 	printf("Created processes since boot: \n\t");
 	printf("%s \n", processes_number);
-
 }
 
 
@@ -99,8 +108,8 @@ void print_step_c() {
 	int file_line_numbers = get_lines_number("/proc/diskstats");
 	long total_reads = 0;
 	for (int line_number = 1; line_number<=file_line_numbers; line_number++) {
-		char* file1 = rdfileline("/proc/diskstats",line_number);
-		const char* const file_ptr_1 = file1;
+		char file1[500];
+		sfileline("/proc/diskstats",line_number,file1,500);
 		char* ptr = strtok(file1, " ");
 		int count = 0;
 		while (ptr != NULL) {
