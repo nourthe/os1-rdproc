@@ -122,3 +122,29 @@ void print_step_c() {
 	}
 	printf("Peticiones a disco: \n\t%li\n", total_reads);
 }
+void print_step_d1(char* optarg) {
+	char location[50] = "/proc/";
+	strcat(location, optarg);
+	strcat(location, "/fd");
+
+	execl("/usr/bin/ls", "ls", "-GAhNg", "--time-style=+", location, (char *)0);
+}
+void print_step_d2(char* optarg) {
+	char location[50] = "/proc/";
+	strcat(location, optarg);
+	strcat(location, "/limits");
+
+	char limits[200];
+	sfileline(location, 9, limits, 200);
+	printf("%s", limits);
+}
+void print_step_d3(char* optarg) {
+	char location[50] = "/proc/";
+	strcat(location, optarg);
+	strcat(location, "/stack");
+
+	char stack[200];
+	sfileline(location, 1, stack, 200);
+	printf("%s", stack);
+
+}
