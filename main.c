@@ -41,7 +41,8 @@ int main(int argc, char* argv[]){
 				print_step_b();
 				break;
 			case 'l':
-				print_step_c();
+				print_step_c1();
+				print_step_c2();
 				break;
 			case 'p':
 				print_step_d1(optarg);

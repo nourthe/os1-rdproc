@@ -47,7 +47,7 @@ void rdproc(int c) {
 }
 
 void printUptime(const char *const proc_slash_uptime) {
-	char * copy = proc_slash_uptime;
+	const char * const copy = proc_slash_uptime;
 	char * charSecondsSinceBoot = strtok(copy, " ");
 	long sencodsSinceBoot = atol(charSecondsSinceBoot);
 
@@ -105,24 +105,27 @@ void print_step_b() {
 }
 
 
-void print_step_c() {
+void print_step_c1() {
 	// Disk requests
-	int file_line_numbers = get_lines_number("/proc/diskstats");
-	long total_reads = 0;
-	for (int line_number = 1; line_number<=file_line_numbers; line_number++) {
-		char file1[500];
-		sfileline("/proc/diskstats",line_number,file1,500);
-		char* ptr = strtok(file1, " ");
-		int count = 0;
-		while (ptr != NULL) {
-			ptr = strtok(NULL," ");
-			count++;
-			if (count == 3) {
-				total_reads+=atol(ptr);
-			}
-		}
-	}
-	printf("Peticiones a disco: \n\t%li\n", total_reads);
+	char buffer[15000];
+	printf("%s", buffer);
+	sfileline("/proc/diskstats",10,buffer,15000);
+	long sectors_read = -1;
+	sscanf(buffer, "%*d %*d sda %ld", &sectors_read);
+}
+void print_step_c2() {
+	// Hardware configurated memory
+	long available = -1, total = -1;
+	// Available Memory:
+	char buffer[1500];
+	sfileline("/proc/meminfo",3,buffer,1500);
+	sscanf(buffer,"MemAvailable: %ld", &available);
+
+	// Available Memory:
+	sfileline("/proc/meminfo",1,buffer,1500);
+	sscanf(buffer,"MemTotal: %ld", &total);
+
+	printf("Memoria disponible / total: %ld / %ld", available, total);
 }
 void print_step_d1(char* optarg) {
 	char location[200];
