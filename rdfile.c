@@ -32,7 +32,7 @@ void sfileline( char* file, int line_number, char* buffer, long buf_size){
 void sdirlist( char* directory, char* buffer, long buf_size){
 	DIR *dir;
 	dir = opendir(directory);
-	if (dir == NULL) {fputs ("Dir error. Does the directory exist?", stderr); exit(1);}
+	if (dir == NULL) {fputs ("Dir error. Does the directory exist? \n", stderr); exit(1);}
 	struct dirent *entry;
 	while ((entry = readdir(dir)) != NULL) {
 		struct stat fileStat;

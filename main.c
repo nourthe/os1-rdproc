@@ -28,6 +28,8 @@ int main(int argc, char* argv[]){
 	bool show_help = false;
 	bool show_version = false;
 	bool classic_read = false;
+	bool step_b = false;
+	bool step_c = false;
 	rdproc('d'); // Print default output
 	while ((c = getopt_long(argc, argv, "vsc:l:p:f:t:", long_opt, &opt_ind))!=-1){
 		switch(c){
@@ -41,26 +43,11 @@ int main(int argc, char* argv[]){
 				classic_read = true;
 				break;
 			case 's':
-				print_step_b();
+				step_b = true;
 				break;
 			case 'l':
-				for (int i = 0; i< argc; i++) {
-					if (strcmp(argv[i],"-l") != 0) continue;
-					if (i+2 >= argc || argv[i+2][0] == '-') {
-						printf("%s", "Falta segundo argumento. \n");
-						break;
-					} 
-					else {
-						int interval = atoi(argv[i+1]);
-						int duration = atoi(argv[i+2]);
-						for (int i = 0; i<duration/interval; i++) {
-							if (i!=0) sleep(interval);
-							print_step_c1();
-							print_step_c2();
-							print_step_c3();
-						}
-					}
-				}
+				step_b = true;
+				step_c = true;
 				break;
 			case 'p':
 				print_step_d1(optarg);
@@ -91,6 +78,15 @@ int main(int argc, char* argv[]){
 	if(classic_read){
 		rdproc('c');
 		return 0;
+	}
+
+
+	if (step_b) {
+		print_step_b();
+	}
+
+	if (step_c) {
+		print_step_c(argc,argv);
 	}
 
 

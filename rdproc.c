@@ -104,6 +104,25 @@ void print_step_b() {
 	printf("%s \n", processes_number);
 }
 
+void print_step_c(int argc, char** argv) {
+	for (int i = 0; i< argc; i++) {
+		if (strcmp(argv[i],"-l") != 0) continue;
+		if (i+2 >= argc || argv[i+2][0] == '-') {
+			printf("%s", "Falta segundo argumento. \n");
+			break;
+		} 
+		else {
+			int interval = atoi(argv[i+1]);
+			int duration = atoi(argv[i+2]);
+			for (int i = 0; i<duration/interval; i++) {
+				if (i!=0) sleep(interval);
+				print_step_c1();
+				print_step_c2();
+				print_step_c3();
+			}
+		}
+	}
+}
 
 void print_step_c1() {
 	// Disk requests
