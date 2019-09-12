@@ -3,11 +3,12 @@
 
 void rdproc( int );
 
-void printUptime(const char* proc_slash_uptime);
+void printUptime(char * proc_slash_uptime);
 
 void print_step_b();
 void print_step_c1();
 void print_step_c2();
+void print_step_c3();
 void print_step_d1();
 void print_step_d2();
 void print_step_d3();

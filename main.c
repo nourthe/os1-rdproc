@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<stdbool.h>
 #include<getopt.h>
+#include<string.h>
+#include<stdlib.h>
+#include<unistd.h>
 
 #include"rdproc.h"
 
@@ -26,7 +29,7 @@ int main(int argc, char* argv[]){
 	bool show_version = false;
 	bool classic_read = false;
 	rdproc('d'); // Print default output
-	while ((c = getopt_long(argc, argv, "vsc:lp:f:t:", long_opt, &opt_ind))!=-1){
+	while ((c = getopt_long(argc, argv, "vsc:l:p:f:t:", long_opt, &opt_ind))!=-1){
 		switch(c){
 			case 1:
 				show_help = true;
@@ -41,8 +44,23 @@ int main(int argc, char* argv[]){
 				print_step_b();
 				break;
 			case 'l':
-				print_step_c1();
-				print_step_c2();
+				for (int i = 0; i< argc; i++) {
+					if (strcmp(argv[i],"-l") != 0) continue;
+					if (i+2 >= argc || argv[i+2][0] == '-') {
+						printf("%s", "Falta segundo argumento. \n");
+						break;
+					} 
+					else {
+						int interval = atoi(argv[i+1]);
+						int duration = atoi(argv[i+2]);
+						for (int i = 0; i<duration/interval; i++) {
+							if (i!=0) sleep(interval);
+							print_step_c1();
+							print_step_c2();
+							print_step_c3();
+						}
+					}
+				}
 				break;
 			case 'p':
 				print_step_d1(optarg);

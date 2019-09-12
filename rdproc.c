@@ -46,8 +46,8 @@ void rdproc(int c) {
 	}
 }
 
-void printUptime(const char *const proc_slash_uptime) {
-	const char * const copy = proc_slash_uptime;
+void printUptime(char * proc_slash_uptime) {
+	char * copy = proc_slash_uptime;
 	char * charSecondsSinceBoot = strtok(copy, " ");
 	long sencodsSinceBoot = atol(charSecondsSinceBoot);
 
@@ -108,10 +108,10 @@ void print_step_b() {
 void print_step_c1() {
 	// Disk requests
 	char buffer[15000];
-	printf("%s", buffer);
 	sfileline("/proc/diskstats",10,buffer,15000);
 	long sectors_read = -1;
 	sscanf(buffer, "%*d %*d sda %ld", &sectors_read);
+	printf("Peticiones a disco: %ld \n", sectors_read);
 }
 void print_step_c2() {
 	// Hardware configurated memory
@@ -125,7 +125,16 @@ void print_step_c2() {
 	sfileline("/proc/meminfo",1,buffer,1500);
 	sscanf(buffer,"MemTotal: %ld", &total);
 
-	printf("Memoria disponible / total: %ld / %ld", available, total);
+	printf("Memoria disponible / total: %ld / %ld \n", available, total);
+}
+void print_step_c3() {
+	// Load Average
+	char buffer[1500];
+	float load = -1.0;
+	sfileline("/proc/loadavg",1,buffer,1500);
+
+	load = atof(strtok(buffer, " "));
+	printf("Promedio de carga en el último minuto: %.2f \n", load);
 }
 void print_step_d1(char* optarg) {
 	char location[200];
