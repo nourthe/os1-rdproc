@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
+#include<dirent.h>
+#include<pwd.h>
+#include<sys/stat.h>
 
 #include"rdfile.h"
 
@@ -25,6 +28,36 @@ void sfileline( char* file, int line_number, char* buffer, long buf_size){
 
 	// Close
 	fclose(fp);
+}
+void sdirlist( char* directory, char* buffer, long buf_size){
+	DIR *dir;
+	dir = opendir(directory);
+	if (dir == NULL) {fputs ("Dir error. Does the directory exist?", stderr); exit(1);}
+	struct dirent *entry;
+	while ((entry = readdir(dir)) != NULL) {
+		struct stat fileStat;
+		//struct passwd * pInfo = getpwuid(fileStat.st_uid);
+		stat("/home/nahuel/prob.gv", &fileStat);
+		char st[20] = "";
+		filestat_perm_string(fileStat, st, 200);
+		strcat(buffer, st);
+		strcat(buffer, "\t");
+		strcat(buffer, entry->d_name);
+		strcat(buffer, "\n");
+	}
+	closedir(dir);
+}
+void filestat_perm_string( struct stat fileStat, char* buffer, long buf_size){
+	strcat ( buffer, (S_ISDIR(fileStat.st_mode)) ? "d" : "-");
+	strcat ( buffer, (fileStat.st_mode & S_IRUSR) ? "r" : "-");
+	strcat ( buffer, (fileStat.st_mode & S_IWUSR) ? "w" : "-");
+	strcat ( buffer, (fileStat.st_mode & S_IXUSR) ? "x" : "-");
+	strcat ( buffer, (fileStat.st_mode & S_IRGRP) ? "r" : "-");
+	strcat ( buffer, (fileStat.st_mode & S_IWGRP) ? "w" : "-");
+	strcat ( buffer, (fileStat.st_mode & S_IXGRP) ? "x" : "-");
+	strcat ( buffer, (fileStat.st_mode & S_IROTH) ? "r" : "-");
+	strcat ( buffer, (fileStat.st_mode & S_IWOTH) ? "w" : "-");
+	strcat ( buffer, (fileStat.st_mode & S_IXOTH) ? "x" : "-");
 }
 
 int get_lines_number(const char* const filename) {

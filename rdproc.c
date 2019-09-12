@@ -1,6 +1,8 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<string.h>
+#include<dirent.h>
+#include<sys/types.h>
 
 #include"rdproc.h"
 #include"rdfile.h"
@@ -123,28 +125,27 @@ void print_step_c() {
 	printf("Peticiones a disco: \n\t%li\n", total_reads);
 }
 void print_step_d1(char* optarg) {
-	char location[50] = "/proc/";
-	strcat(location, optarg);
-	strcat(location, "/fd");
+	char location[200];
+	sprintf(location, "/proc/%s/fd", optarg);
 
-	execl("/usr/bin/ls", "ls", "-GAhNg", "--time-style=+", location, (char *)0);
+	//execl("/usr/bin/ls", "ls", "-GAhNg", "--time-style=+", location, (char *)0);
+	char output[500];
+	sdirlist(location, output, 500);
+	printf("%s",output);
 }
 void print_step_d2(char* optarg) {
-	char location[50] = "/proc/";
-	strcat(location, optarg);
-	strcat(location, "/limits");
+	char location[200];
+	sprintf(location, "/proc/%s/limits", optarg);
 
 	char limits[200];
 	sfileline(location, 9, limits, 200);
 	printf("%s", limits);
 }
 void print_step_d3(char* optarg) {
-	char location[50] = "/proc/";
-	strcat(location, optarg);
-	strcat(location, "/stack");
+	char location[200];
+	sprintf(location, "/proc/%s/stack", optarg);
 
 	char stack[200];
 	sfileline(location, 1, stack, 200);
 	printf("%s", stack);
-
 }

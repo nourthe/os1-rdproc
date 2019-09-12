@@ -18,6 +18,10 @@ void sfileline( char* file, int line_number, char* buffer, long buf_size);
  */
 void swholefile( char* file, char* buffer, long buf_size);
 
+void sdirlist( char* directory, char* buffer, long buf_size);
+
+void filestat_perm_string( struct stat fileStat, char* buffer, long buf_size);
+
 /**
  * @param filename: file to count lines from
  * @return: the number of files or -1 if file not found
