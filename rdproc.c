@@ -160,23 +160,23 @@ void print_step_d1(char* optarg) {
 	sprintf(location, "/proc/%s/fd", optarg);
 
 	//execl("/usr/bin/ls", "ls", "-GAhNg", "--time-style=+", location, (char *)0);
-	char output[500];
-	sdirlist(location, output, 500);
+	char output[50000];
+	sdirlist(location, output, 50000);
 	printf("%s",output);
 }
 void print_step_d2(char* optarg) {
-	char location[200];
+	char location[20000];
 	sprintf(location, "/proc/%s/limits", optarg);
 
-	char limits[200];
-	sfileline(location, 9, limits, 200);
+	char limits[20000];
+	sfileline(location, 9, limits, 20000);
 	printf("%s", limits);
 }
 void print_step_d3(char* optarg) {
-	char location[200];
+	char location[20000];
 	sprintf(location, "/proc/%s/stack", optarg);
 
-	char stack[200];
-	sfileline(location, 1, stack, 200);
+	char stack[20000];
+	sfileline(location, 1, stack, 20000);
 	printf("%s", stack);
 }
