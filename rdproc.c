@@ -175,8 +175,7 @@ void print_step_d2(char* optarg) {
 void print_step_d3(char* optarg) {
 	char location[20000];
 	sprintf(location, "/proc/%s/stack", optarg);
-
 	char stack[20000];
-	sfileline(location, 1, stack, 20000);
-	printf("%s", stack);
+	swholefile(location, stack, 20000);
+	printf("%s\n", stack);
 }
