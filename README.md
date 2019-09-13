@@ -57,8 +57,11 @@ Finalemente se procedió a completar los pasos.
 
 ## Respuestas
 - Cuáles son los tipos de file descriptors que podemos encontrar en /proc/<id>/fd?
+  Podemos encontrar 3 tipos de archivos:
+  REG: Archivos regulares.
+  LNK: Enlaces simbólicos (Donde se encuentran pipes y sockets).
+  CHR: Dispositivos orientados a caracteres.
 
-    
 - Qué diferencia hay entre hard y soft limits?
   El hard limit es el límite que un usuario nunca puede superar. 
 
