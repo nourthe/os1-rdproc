@@ -4,7 +4,6 @@
 #include<dirent.h>
 #include<pwd.h>
 #include<unistd.h>
-#include<sys/stat.h>
 
 #include"rdfile.h"
 
@@ -45,16 +44,20 @@ void sdirlist( char* directory, char* buffer, long buf_size){
 		strcat(file, "/");
 		strcat(file, entry->d_name);
 
-		lstat(file, &fileStat);
-
 		char st[20] = "";
 		char type[20] = "";
-		filestat_perm_string(fileStat, st, 20);
-		d_type_string(fileStat.st_mode, type, 20);
+
 		char link[256] = "";
+
+		lstat(file, &fileStat);
+
 		if((fileStat.st_mode & S_IFMT) == S_IFLNK){
 			readlink(file, link, 256);
+			lstat(link, &fileStat);
 		}
+
+		filestat_perm_string(fileStat, st, 20);
+		d_type_string(fileStat.st_mode, type, 20);
 
 		strcat(buffer, st);
 		strcat(buffer, "\t");

@@ -1,5 +1,6 @@
 #ifndef _RDFILE_H_
 #define _RDFILE_H_
+#include<sys/stat.h>
 
 /**
  * Read a specific file line.
